@@ -1,0 +1,43 @@
+# Ignorar entorno virtual
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Documentos generados (opcional, descomentar si no quieres hacer commit de ellos)
+documentos_generados/*.docx
+!documentos_generados/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Variables de entorno
+.env
+.env.local
+
+# Archivos temporales
+*.tmp
+*.bak
+.cache/
+
+# PDFs de referencia (opcional, descomentar si no quieres subirlos)
+# *.pdf

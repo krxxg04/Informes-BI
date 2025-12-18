@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta CONEI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← Volver al inicio</a>
+            <h1>👥 Acta de Reunión CONEI</h1>
+        </header>
+
+        <main>
+            <form id="formulario" class="form-container">
+                <div class="form-section">
+                    <h3>Datos Generales</h3>
+                    
+                    <div class="form-group">
+                        <label for="numero_acta">Número de Acta *</label>
+                        <input type="text" id="numero_acta" name="numero_acta" required 
+                               placeholder="Ej: 001-2025">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="institucion">Institución Educativa *</label>
+                        <input type="text" id="institucion" name="institucion" required 
+                               placeholder="Nombre de la I.E.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha *</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hora_inicio">Hora de Inicio *</label>
+                            <input type="time" id="hora_inicio" name="hora_inicio" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hora_termino">Hora de Término *</label>
+                            <input type="time" id="hora_termino" name="hora_termino" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lugar">Lugar *</label>
+                        <input type="text" id="lugar" name="lugar" required 
+                               placeholder="Ej: Dirección de la I.E.">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Asistentes</h3>
+                    
+                    <div id="asistentes-container">
+                        <div class="form-group asistente-item">
+                            <label>Asistente 1 *</label>
+                            <input type="text" name="asistente" required 
+                                   placeholder="Nombre completo y cargo">
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-add" onclick="agregarAsistente()">+ Agregar Asistente</button>
+                </div>
+
+                <div class="form-section">
+                    <h3>Agenda</h3>
+                    
+                    <div id="agenda-container">
+                        <div class="form-group agenda-item">
+                            <label>Punto 1 *</label>
+                            <input type="text" name="punto_agenda" required 
+                                   placeholder="Primer punto de la agenda">
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-add" onclick="agregarPuntoAgenda()">+ Agregar Punto</button>
+                </div>
+
+                <div class="form-section">
+                    <h3>Desarrollo</h3>
+                    
+                    <div class="form-group">
+                        <label for="desarrollo">Desarrollo de la Reunión *</label>
+                        <textarea id="desarrollo" name="desarrollo" rows="8" required 
+                                  placeholder="Describe el desarrollo de la reunión, discusiones y deliberaciones"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Acuerdos</h3>
+                    
+                    <div id="acuerdos-container">
+                        <div class="form-group acuerdo-item">
+                            <label>Acuerdo 1 *</label>
+                            <textarea name="acuerdo" rows="2" required 
+                                      placeholder="Primer acuerdo tomado"></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-add" onclick="agregarAcuerdo()">+ Agregar Acuerdo</button>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="location.href='/'" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Generar Documento</button>
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+            </form>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.getElementById('fecha').valueAsDate = new Date();
+
+        let asistenteCount = 1;
+        let agendaCount = 1;
+        let acuerdoCount = 1;
+
+        function agregarAsistente() {
+            asistenteCount++;
+            const container = document.getElementById('asistentes-container');
+            const div = document.createElement('div');
+            div.className = 'form-group asistente-item';
+            div.innerHTML = `
+                <label>Asistente ${asistenteCount}</label>
+                <input type="text" name="asistente" placeholder="Nombre completo y cargo">
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function agregarPuntoAgenda() {
+            agendaCount++;
+            const container = document.getElementById('agenda-container');
+            const div = document.createElement('div');
+            div.className = 'form-group agenda-item';
+            div.innerHTML = `
+                <label>Punto ${agendaCount}</label>
+                <input type="text" name="punto_agenda" placeholder="Punto de la agenda">
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function agregarAcuerdo() {
+            acuerdoCount++;
+            const container = document.getElementById('acuerdos-container');
+            const div = document.createElement('div');
+            div.className = 'form-group acuerdo-item';
+            div.innerHTML = `
+                <label>Acuerdo ${acuerdoCount}</label>
+                <textarea name="acuerdo" rows="2" placeholder="Acuerdo tomado"></textarea>
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Override del submit
+        document.getElementById('formulario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Campos simples
+            for (let [key, value] of formData.entries()) {
+                if (!['asistente', 'punto_agenda', 'acuerdo'].includes(key)) {
+                    data[key] = value;
+                }
+            }
+            
+            // Arrays
+            data.asistentes = Array.from(document.getElementsByName('asistente'))
+                .map(input => input.value)
+                .filter(val => val.trim() !== '');
+            
+            data.agenda = Array.from(document.getElementsByName('punto_agenda'))
+                .map(input => input.value)
+                .filter(val => val.trim() !== '');
+            
+            data.acuerdos = Array.from(document.getElementsByName('acuerdo'))
+                .map(textarea => textarea.value)
+                .filter(val => val.trim() !== '');
+            
+            enviarFormulario('acta_conei', data);
+        });
+    </script>
+</body>
+</html>
