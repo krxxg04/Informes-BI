@@ -342,3 +342,50 @@ footer {
 .card, .form-section {
     animation: fadeIn 0.5s ease-out;
 }
+
+/* Estilos para OCR */
+.file-input {
+    padding: 10px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-input:hover {
+    border-color: #667eea;
+    background: #f0f0ff;
+}
+
+.ocr-resultado {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.ocr-resultado h4 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.ocr-resultado pre {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+}
+
+.info-text {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    font-style: italic;
+}

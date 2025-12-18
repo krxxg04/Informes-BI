@@ -172,5 +172,86 @@ function autoGuardar() {
     }, 30000);
 }
 
-// Iniciar auto-guardado
-document.addEventListener('DOMContentLoaded', autoGuardar);
+// Función para procesar OCR
+function procesarOCR() {
+    const fileInput = document.getElementById('imagen_ocr');
+    const resultadoDiv = document.getElementById('ocr_resultado');
+    const textoPre = document.getElementById('ocr_texto');
+    const procesarBtn = document.getElementById('procesar_ocr');
+    
+    if (!fileInput.files[0]) {
+        alert('Por favor selecciona una imagen primero');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('imagen', fileInput.files[0]);
+    
+    procesarBtn.disabled = true;
+    procesarBtn.innerHTML = '<span class="loading"></span> Procesando...';
+    
+    fetch('/procesar_imagen', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            alert('Error: ' + result.error);
+        } else {
+            textoPre.textContent = result.texto_completo;
+            resultadoDiv.style.display = 'block';
+            // Guardar datos extraídos para rellenar
+            resultadoDiv.dataset.datos = JSON.stringify(result.datos_extraidos);
+        }
+    })
+    .catch(error => {
+        alert('Error procesando la imagen: ' + error.message);
+    })
+    .finally(() => {
+        procesarBtn.disabled = false;
+        procesarBtn.innerHTML = '🔍 Procesar Imagen';
+    });
+}
+
+// Función para rellenar formulario con datos OCR
+function rellenarFormulario() {
+    const resultadoDiv = document.getElementById('ocr_resultado');
+    const datos = JSON.parse(resultadoDiv.dataset.datos || '{}');
+    
+    // Mapear campos OCR a campos del formulario
+    const mapeoCampos = {
+        'numero_expediente': 'numero_expediente',
+        'fecha': 'fecha',
+        'remitente': 'remitente',
+        'destinatario': 'destinatario',
+        'asunto': 'asunto'
+    };
+    
+    for (const [campoOCR, campoForm] of Object.entries(mapeoCampos)) {
+        if (datos[campoOCR]) {
+            const elemento = document.getElementById(campoForm);
+            if (elemento) {
+                elemento.value = datos[campoOCR];
+            }
+        }
+    }
+    
+    alert('Formulario rellenado con datos extraídos. Revisa y ajusta si es necesario.');
+}
+
+// Event listeners para OCR
+document.addEventListener('DOMContentLoaded', function() {
+    const procesarBtn = document.getElementById('procesar_ocr');
+    const rellenarBtn = document.getElementById('rellenar_datos');
+    
+    if (procesarBtn) {
+        procesarBtn.addEventListener('click', procesarOCR);
+    }
+    
+    if (rellenarBtn) {
+        rellenarBtn.addEventListener('click', rellenarFormulario);
+    }
+    
+    autoGuardar();
+});

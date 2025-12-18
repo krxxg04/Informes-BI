@@ -36,6 +36,8 @@ echo.
 echo Presiona Ctrl+C para detener el servidor
 echo.
 
+start http://localhost:5000
+
 python app\main.py
 
 pause

@@ -76,6 +76,24 @@
                     </div>
                 </div>
 
+                <div class="form-section">
+                    <h3>📷 Extraer Datos de Imagen (OCR)</h3>
+                    <p class="info-text">Sube una imagen de un documento existente para extraer automáticamente los datos</p>
+                    
+                    <div class="form-group">
+                        <label for="imagen_ocr">Seleccionar Imagen</label>
+                        <input type="file" id="imagen_ocr" accept="image/*" class="file-input">
+                    </div>
+                    
+                    <button type="button" id="procesar_ocr" class="btn-secondary">🔍 Procesar Imagen</button>
+                    
+                    <div id="ocr_resultado" class="ocr-resultado" style="display: none;">
+                        <h4>Datos Extraídos:</h4>
+                        <pre id="ocr_texto"></pre>
+                        <button type="button" id="rellenar_datos" class="btn-primary">✅ Rellenar Formulario</button>
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <button type="button" onclick="location.href='/'" class="btn-secondary">Cancelar</button>
                     <button type="submit" class="btn-primary">Generar Documento</button>

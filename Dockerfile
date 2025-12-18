@@ -1,6 +1,13 @@
 # Usar imagen oficial de Python
 FROM python:3.11-slim
 
+# Instalar Tesseract OCR y dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-spa \
+    libtesseract-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Establecer directorio de trabajo
 WORKDIR /app
 
