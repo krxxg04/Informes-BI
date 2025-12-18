@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente Administrativo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← Volver al inicio</a>
+            <h1>📋 Expediente Administrativo</h1>
+        </header>
+
+        <main>
+            <form id="formulario" class="form-container">
+                <div class="form-section">
+                    <h3>Datos del Expediente</h3>
+                    
+                    <div class="form-group">
+                        <label for="numero_expediente">Número de Expediente *</label>
+                        <input type="text" id="numero_expediente" name="numero_expediente" required 
+                               placeholder="Ej: 001-2025-IE">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha *</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="remitente">DE (Remitente) *</label>
+                        <input type="text" id="remitente" name="remitente" required 
+                               placeholder="Nombre del remitente">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destinatario">PARA (Destinatario) *</label>
+                        <input type="text" id="destinatario" name="destinatario" required 
+                               placeholder="Nombre del destinatario">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asunto">Asunto *</label>
+                        <textarea id="asunto" name="asunto" rows="2" required 
+                                  placeholder="Describe brevemente el asunto del expediente"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Contenido del Expediente</h3>
+                    
+                    <div class="form-group">
+                        <label for="contenido">Contenido Principal *</label>
+                        <textarea id="contenido" name="contenido" rows="6" required 
+                                  placeholder="Escribe el contenido principal del expediente"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="antecedentes">Antecedentes (Opcional)</label>
+                        <textarea id="antecedentes" name="antecedentes" rows="4" 
+                                  placeholder="Describe los antecedentes si los hay"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="analisis">Análisis (Opcional)</label>
+                        <textarea id="analisis" name="analisis" rows="4" 
+                                  placeholder="Análisis de la situación"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="conclusion">Conclusión (Opcional)</label>
+                        <textarea id="conclusion" name="conclusion" rows="3" 
+                                  placeholder="Conclusión del expediente"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="location.href='/'" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Generar Documento</button>
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+            </form>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Establecer fecha actual por defecto
+        document.getElementById('fecha').valueAsDate = new Date();
+    </script>
+</body>
+</html>

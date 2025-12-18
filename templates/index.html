@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Informes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📄 Generador de Informes Administrativos</h1>
+            <p class="subtitle">Crea tus informes de forma rápida y sencilla</p>
+        </header>
+
+        <main>
+            <div class="card-grid">
+                <div class="card" onclick="location.href='/formulario/expediente'">
+                    <div class="card-icon">📋</div>
+                    <h2>Expediente Administrativo</h2>
+                    <p>Crea expedientes con formato oficial para trámites administrativos</p>
+                    <button class="btn-primary">Crear Expediente</button>
+                </div>
+
+                <div class="card" onclick="location.href='/formulario/resolucion_directoral'">
+                    <div class="card-icon">📜</div>
+                    <h2>Resolución Directoral</h2>
+                    <p>Genera resoluciones directorales con visto, considerandos y artículos</p>
+                    <button class="btn-primary">Crear RD</button>
+                </div>
+
+                <div class="card" onclick="location.href='/formulario/acta_conei'">
+                    <div class="card-icon">👥</div>
+                    <h2>Acta CONEI</h2>
+                    <p>Elabora actas de reunión del Consejo Educativo Institucional</p>
+                    <button class="btn-primary">Crear Acta</button>
+                </div>
+
+                <div class="card" onclick="location.href='/formulario/conformidad'">
+                    <div class="card-icon">✅</div>
+                    <h2>Conformidad</h2>
+                    <p>Emite constancias de conformidad para servicios o productos</p>
+                    <button class="btn-primary">Crear Conformidad</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 - Sistema de Generación de Informes</p>
+        </footer>
+    </div>
+</body>
+</html>

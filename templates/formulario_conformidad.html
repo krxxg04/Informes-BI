@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conformidad</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← Volver al inicio</a>
+            <h1>✅ Constancia de Conformidad</h1>
+        </header>
+
+        <main>
+            <form id="formulario" class="form-container">
+                <div class="form-section">
+                    <h3>Datos Generales</h3>
+                    
+                    <div class="form-group">
+                        <label for="institucion">Institución *</label>
+                        <input type="text" id="institucion" name="institucion" required 
+                               placeholder="Nombre de la institución">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha *</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre_responsable">Nombre del Responsable *</label>
+                        <input type="text" id="nombre_responsable" name="nombre_responsable" required 
+                               placeholder="Nombre completo de quien da la conformidad">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cargo">Cargo *</label>
+                        <input type="text" id="cargo" name="cargo" required 
+                               placeholder="Cargo del responsable">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Descripción de la Conformidad</h3>
+                    
+                    <div class="form-group">
+                        <label for="descripcion">Descripción *</label>
+                        <textarea id="descripcion" name="descripcion" rows="6" required 
+                                  placeholder="Describe el servicio, producto o actividad a la que se da conformidad"></textarea>
+                        <small>Describe detalladamente lo que se está conformando</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones (Opcional)</label>
+                        <textarea id="observaciones" name="observaciones" rows="4" 
+                                  placeholder="Observaciones adicionales si las hay"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="location.href='/'" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Generar Documento</button>
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+            </form>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.getElementById('fecha').valueAsDate = new Date();
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolución Directoral</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← Volver al inicio</a>
+            <h1>📜 Resolución Directoral</h1>
+        </header>
+
+        <main>
+            <form id="formulario" class="form-container">
+                <div class="form-section">
+                    <h3>Datos Generales</h3>
+                    
+                    <div class="form-group">
+                        <label for="numero_rd">Número de RD *</label>
+                        <input type="text" id="numero_rd" name="numero_rd" required 
+                               placeholder="Ej: 001-2025-DIR-IE">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="institucion">Institución *</label>
+                        <input type="text" id="institucion" name="institucion" required 
+                               placeholder="Nombre de la institución educativa">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lugar">Lugar *</label>
+                        <input type="text" id="lugar" name="lugar" required 
+                               placeholder="Ej: Lima, Perú">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha *</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>VISTO</h3>
+                    
+                    <div class="form-group">
+                        <label for="visto">Visto *</label>
+                        <textarea id="visto" name="visto" rows="3" required 
+                                  placeholder="Ej: El expediente N° 001-2025..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>CONSIDERANDO</h3>
+                    
+                    <div id="considerandos-container">
+                        <div class="form-group considerando-item">
+                            <label>Considerando 1 *</label>
+                            <textarea name="considerando" rows="2" required 
+                                      placeholder="Que, es necesario..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-add" onclick="agregarConsiderando()">+ Agregar Considerando</button>
+                </div>
+
+                <div class="form-section">
+                    <h3>SE RESUELVE</h3>
+                    
+                    <div id="articulos-container">
+                        <div class="form-group articulo-item">
+                            <label>Artículo 1° *</label>
+                            <textarea name="articulo" rows="2" required 
+                                      placeholder="Aprobar..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-add" onclick="agregarArticulo()">+ Agregar Artículo</button>
+                </div>
+
+                <div class="form-section">
+                    <h3>Firma</h3>
+                    
+                    <div class="form-group">
+                        <label for="firmante">Nombre del Firmante *</label>
+                        <input type="text" id="firmante" name="firmante" required 
+                               placeholder="Nombre completo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cargo_firmante">Cargo del Firmante *</label>
+                        <input type="text" id="cargo_firmante" name="cargo_firmante" required 
+                               placeholder="Ej: Director(a)">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="location.href='/'" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Generar Documento</button>
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+            </form>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.getElementById('fecha').valueAsDate = new Date();
+
+        let considerandoCount = 1;
+        let articuloCount = 1;
+
+        function agregarConsiderando() {
+            considerandoCount++;
+            const container = document.getElementById('considerandos-container');
+            const div = document.createElement('div');
+            div.className = 'form-group considerando-item';
+            div.innerHTML = `
+                <label>Considerando ${considerandoCount}</label>
+                <textarea name="considerando" rows="2" placeholder="Que, es necesario..."></textarea>
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function agregarArticulo() {
+            articuloCount++;
+            const container = document.getElementById('articulos-container');
+            const div = document.createElement('div');
+            div.className = 'form-group articulo-item';
+            div.innerHTML = `
+                <label>Artículo ${articuloCount}°</label>
+                <textarea name="articulo" rows="2" placeholder="Aprobar..."></textarea>
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Eliminar</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Override del submit para capturar considerandos y artículos como arrays
+        document.getElementById('formulario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Campos simples
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'considerando' && key !== 'articulo') {
+                    data[key] = value;
+                }
+            }
+            
+            // Arrays de considerandos y artículos
+            data.considerandos = Array.from(document.getElementsByName('considerando'))
+                .map(textarea => textarea.value)
+                .filter(val => val.trim() !== '');
+            
+            data.articulos = Array.from(document.getElementsByName('articulo'))
+                .map(textarea => textarea.value)
+                .filter(val => val.trim() !== '');
+            
+            enviarFormulario('resolucion_directoral', data);
+        });
+    </script>
+</body>
+</html>
